@@ -67,6 +67,10 @@ namespace TKTuts
             Buffers.IndexBuffer ibo = new Buffers.IndexBuffer(_indices);
             sprite1.AddBuffer(vbo, 0);
 
+            Buffers.VertexArray sprite2 = new Buffers.VertexArray();
+            vbo = new Buffers.Buffer(_vertices, 3);
+            sprite2.AddBuffer(vbo, 0);
+
             Vector2 position = new Vector2(300f, 300f);
             Vector2 scale = new Vector2(300f, 200f);
             float rotation = MathF.PI / 4f;
@@ -75,7 +79,7 @@ namespace TKTuts
             Matrix4 sca = Matrix4.Identity * Matrix4.CreateScale(scale.X, scale.Y, 1);
             Matrix4 rot = Matrix4.CreateRotationZ(rotation);
 
-            var view = Matrix4.CreateTranslation(0.0f, 0.0f, -2.0f);
+            var view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
 
             var model = Matrix4.Identity;
             model *= sca;
@@ -84,10 +88,29 @@ namespace TKTuts
             _shader.SetMatrix4("view", view);
             _shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
+            Color color1 = new Color(100, 150, 250, 255);
+
+            int location = GL.GetUniformLocation(_shader.Handle, "color");
+            GL.Uniform4(location, color1);
+
             sprite1.Bind();
             ibo.Bind();
             GL.DrawElements(PrimitiveType.Triangles, ibo.Count, DrawElementsType.UnsignedShort, 0);
             sprite1.Unbind();
+            ibo.Unbind();
+
+            Color color2 = new Color(250, 100, 150, 255);
+            model = Matrix4.Identity * Matrix4.CreateScale(100, 100, 1) * Matrix4.CreateTranslation(120, 200, 1);
+            _shader.SetMatrix4("model", model);
+            _shader.SetMatrix4("view", view);
+            _shader.SetMatrix4("projection", camera.GetProjectionMatrix());
+
+            GL.Uniform4(location, color2);
+
+            sprite2.Bind();
+            ibo.Bind();
+            GL.DrawElements(PrimitiveType.Triangles, ibo.Count, DrawElementsType.UnsignedShort, 0);
+            sprite2.Unbind();
             ibo.Unbind();
 
             SwapBuffers();
