@@ -24,8 +24,7 @@ namespace TKTuts
             float top = FocusPosition.Y - Window.HEIGHT / 2f;
             float bottom = FocusPosition.Y + Window.HEIGHT / 2f;
 
-            Matrix4 orthoMatrix = Matrix4.CreateOrthographicOffCenter(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-            //Matrix4 orthoMatrix = Matrix4.CreateOrthographic(800f, 600f, 0.1f, 100f);
+            Matrix4 orthoMatrix = Matrix4.CreateOrthographicOffCenter(left, right, bottom, top, 0.1f, 100.0f);
             Matrix4 zoomMatrix = Matrix4.CreateScale(Zoom);
 
             return orthoMatrix;

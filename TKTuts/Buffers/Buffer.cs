@@ -26,5 +26,10 @@ namespace TKTuts.Buffers
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
+
+        public void Delete()
+        {
+            GL.DeleteBuffer(BufferID);
+        }
     }
 }
